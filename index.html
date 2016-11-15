@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>canvas-painter</title>
+    <link rel="stylesheet" type="text/css" href="./source/stylesheets/struct.css">
+    <link rel="stylesheet" type="text/css" href="./source/stylesheets/elements.css">
+  </head>
+  <body>
+    <script src="./source/javascripts/pageinit.js"></script>
+    <div id="app-container">
+
+      <div id="draw-container">
+        <div id="rule-container">
+          <div id="rule-up" onmousemove="drawResetArea();"></div>
+          <div id="rule-down" onmousemove="drawResetArea();"></div>
+          <div id="rule-left" onmousemove="drawResetArea();"></div>
+          <div id="rule-right" onmousemove="drawResetArea();"></div>
+        </div>
+
+        <div id="canvas-container">
+          <canvas id="canvas"></canvas>
+        </div>
+      </div>
+
+      <div id="controls-container">
+
+        <div id="vertical-sections">
+          <div id="vertical-1">
+            <div id="palette-container">
+              <div id="palette-white"></div>
+              <div id="palette-red"></div>
+              <div id="palette-blue"></div>
+              <div id="palette-green"></div>
+            </div>
+            <div id="colorpicker-container">
+              <div id="secondary-color"></div>
+              <div id="primary-color"></div>
+            </div>
+          </div>
+          <div id="vertical-2">
+            <div id="instruments-container">
+              <div id="instrument-brush"></div>
+              <div id="instrument-eraser"></div>
+              <div id="instrument-colorpicker"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="horizontal-sections">
+          <div id="horizontal-1">
+            <div>
+              <div>
+                <span class="title-name">Brush size:</span>
+                <span class="title-value" id="brush-value">10.0</span>
+              </div>
+              <div id="brush-width-container">
+                <div id="brush-width-element"></div>
+              </div>
+            </div>
+            <div>
+              <div>
+                <span class="title-name">Eraser size:</span>
+                <span class="title-value">00.0</span>
+              </div>
+              <div id="eraser-width-container">
+                <div id="eraser-width-element"></div>
+              </div>
+            </div>
+          </div>
+          <div id="horizontal-2"></div>
+          <div id="horizontal-3"></div>
+          <div id="horizontal-4">
+            <div id="button-clear">clear</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <script src="./source/javascripts/main.js"></script>
+  </body>
+</html>

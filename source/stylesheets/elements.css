@@ -1,0 +1,201 @@
+#rule-container {
+
+}
+
+  #rule-container > * {
+    position: absolute;
+    display: inline-block;
+    background-color: #AEAEB6;
+  }
+
+  #rule-up {
+    width: 600px;
+    height: 20px;
+    margin: 0px 0px 0px 20px;
+  }
+
+  #rule-down {
+    width: 600px;
+    height: 20px;
+    margin: 620px 0px 0px 20px;
+  }
+
+  #rule-left {
+    width: 20px;
+    height: 600px;
+    margin: 20px 0px 0px 0px;
+  }
+
+  #rule-right {
+    width: 20px;
+    height: 600px;
+    margin: 20px 0px 0px 620px;
+  }
+
+#canvas-container {
+  margin: 20px;
+  width: 600px;
+  height: 600px;
+  background-color: white;
+  display: inline-block;
+  float: left;
+}
+
+  #canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+/*vertical-sections > vertical-1*/
+
+#palette-container {
+  width: 100%;
+  vertical-align: top;
+}
+
+  #palette-container > * {
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin: 3px;
+    border: none;
+  }
+
+  #palette-white {
+    background-color: #F6F6F6;
+  }
+  #palette-red {
+    background-color: #E61932;
+  }
+  #palette-blue {
+    background-color: #565BCF;
+  }
+  #palette-green {
+    background-color: #6BB438;
+  }
+
+#colorpicker-container {
+  float: left;
+  width: 52px;
+  height: 52px;
+  background-color: #CFB5B5;
+}
+
+  #colorpicker-container > * {
+    position: absolute;
+    width: 29px;
+    height: 29px;
+    border: 1px #CFB5B5 solid;
+  }
+
+ #primary-color {
+   margin: 2px 0px 0px 2px;
+   background-color: #6868AC;
+ }
+
+ #secondary-color {
+   margin: 19px 0px 0px 19px;
+   background-color: #F6F6F6;
+ }
+
+/*vertical-sections > vertical-2*/
+
+#instruments-container {
+  width: 100%;
+  vertical-align: top;
+}
+
+  #instruments-container > * {
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin: 3px;
+  }
+
+  #instruments-container *:hover {
+    background-color: #AEAEB6;
+  }
+
+  #instrument-brush {
+    background: url("../images/brush-normal.png");
+    background-color: #CFB5B5;
+  }
+
+  #instrument-eraser {
+    background: url("../images/eraser-normal.png");
+    background-color: #CFB5B5;
+  }
+
+  #instrument-colorpicker {
+    background: url("../images/colorpicker-normal.png");
+    background-color: #CFB5B5;
+  }
+
+/*horizontal-sections > horizontal-1*/
+
+.title-name { /*instrument titles*/
+  font-family: "Sans", sans;
+  font-size: 11px;
+  color: #9A9797;
+  margin: 0px 0px 0px 5px;
+}
+
+.title-value { /*instrument titles*/
+  font-family: "Sans", sans;
+  font-size: 11px;
+  color: #9A9797;
+  margin: 0px 5px 0px 0px;
+}
+
+#brush-width-container {
+  width: 100px;
+  height: 8px;
+  background-color: #CFB5B5;
+  margin: 0px 5px;
+}
+
+  #brush-width-element {
+    width: 50%;
+    height: 100%;
+    background-color: #6868AC;
+  }
+
+#eraser-width-container {
+  width: 100px;
+  height: 8px;
+  background-color: #CFB5B5;
+  margin: 0px 5px;
+}
+
+  #eraser-width-element {
+    width: 50%;
+    height: 100%;
+    background-color: #6868AC;
+  }
+
+/*horizontal-sections > horizontal-4*/
+
+#button-clear {
+  background-color: #CFB5B5;
+  width: 35px;
+  border-radius: 2px;
+  font-family: "Sans", sans;
+  font-size: 15px;
+  color: #323234;
+  padding: 5px 10px;
+  text-decoration: none;
+  margin: 5px;
+  cursor: default;
+  user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+  #button-clear:hover {
+    background-color: #AEAEB6;
+  }
+
+  #button-clear:active {
+    background-color: #6868AC;
+  }

@@ -1,0 +1,79 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  background-color: gray;
+}
+
+#app-container {
+  background-color: #DDD;
+  height: 700px;
+}
+
+#draw-container {
+  width: 640px;
+  height: 640px;
+  padding: 10px;
+  float: left;
+}
+
+
+
+#controls-container {
+  float: left;
+  height: 640px;
+  padding: 10px;
+}
+
+  #controls-container > * {
+    float: left;
+  }
+
+  #vertical-sections {
+    width: 62px;
+  }
+
+    #vertical-sections > * {
+      width: 52px;
+      border: 1px #CFB5B5 solid;
+      margin: 5px;
+      float: left;
+    }
+
+      #vertical-1 {
+        height: 400px;
+        /*palette-container*/
+        /*colorpicker-container*/
+      }
+
+      #vertical-2 {
+        height: 209px;
+        /*instruments-container*/
+      }
+
+    #horizontal-sections {
+      width: 300px;
+    }
+
+      #horizontal-sections > * {
+        width: 100%;
+        height: 150px;
+        border: 1px #CFB5B5 solid;
+        margin: 5px;
+      }
+
+      #horizontal-1 {
+        /*brush-width-container*/
+        /*eraser-width-container*/
+      }
+
+      #horizontal-2 {
+
+      }
+
+      #horizontal-3 {
+
+      }
+
+      #horizontal-4 {
+        /*button-clear*/
+      }
