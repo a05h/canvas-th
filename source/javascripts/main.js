@@ -4,6 +4,8 @@ var canvas = document.getElementById('canvas');
 
 var buttonClear = document.getElementById('button-clear');
 buttonClear.addEventListener('click', clearCanvas, false);
+var buttonSave = document.getElementById('button-save');
+buttonSave.addEventListener('click', saveDialog, false);
 
 var paletteWhite = document.getElementById('palette-white');
 paletteWhite.addEventListener('click', setColorWhite, false);
@@ -36,8 +38,7 @@ var eraserWidthContainer = document.getElementById('eraser-width-container');
 eraserWidthContainer.addEventListener('click', setEraserSize, false);
 var eraserWidthElement = document.getElementById('eraser-width-element');
 
-var brush = canvas.getContext('2d');
-var eraser = canvas.getContext('2d');
+var context = canvas.getContext('2d');
 
 var canvasContainer = document.getElementById('canvas-container');
 var paintStyle = getComputedStyle(canvasContainer);
@@ -49,12 +50,26 @@ const colorRed = '#E61932';
 const colorBlue = '#565BCF';
 const colorGreen = '#6BB438';
 
+//basic values
+
+context.lineWidth = 10;
+context.lineJoin = 'round';
+context.lineCap = 'round';
+context.strokeStyle = '#1A1919';
+instrumentBrush.style.backgroundColor = '#6868AC';
+
+var isInstrument = "brush";
+var currentPrimaryColor = '#1A1919'
+var currentSecondaryColor = '#FFF';
+
+canvas.style.backgroundColor = '#FFF';
+
 //draw events
 
 var mouse = {x: 0, y: 0};
 var onPaint = function() {
-    brush.lineTo(mouse.x, mouse.y);
-    brush.stroke();
+  context.lineTo(mouse.x, mouse.y);
+  context.stroke();
 };
 
 canvas.addEventListener('mousemove', function(e) {
@@ -63,31 +78,43 @@ canvas.addEventListener('mousemove', function(e) {
 }, false);
 
 canvas.addEventListener('mousedown', function(e) {
-    brush.beginPath();
-    brush.moveTo(mouse.x, mouse.y);
-    canvas.addEventListener('mousemove', onPaint, false);
+  switch (isInstrument) {
+    case "eraser":
+      context.strokeStyle = currentSecondaryColor;
+      break;
+    case "colorpicker":
+      alert("It's not work yet.");
+      context.strokeStyle = "rgba(0, 0, 0, 0)"
+      break;
+    case "brush":
+    default:
+      context.strokeStyle = currentPrimaryColor;
+      break;
+  };
+  context.beginPath();
+  context.moveTo(mouse.x, mouse.y);
+  canvas.addEventListener('mousemove', onPaint, false);
 }, false);
 
 canvas.addEventListener('mouseup', function() {
-    canvas.removeEventListener('mousemove', onPaint, false);
+  canvas.removeEventListener('mousemove', onPaint, false);
 }, false);
 
 function drawResetArea() {
   canvas.removeEventListener('mousemove', onPaint, false);
 };
 
-//basic values
-
-brush.lineWidth = 10;
-brush.lineJoin = 'round';
-brush.lineCap = 'round';
-brush.strokeStyle = '#1A1919';
-instrumentBrush.style.backgroundColor = '#6868AC';
-
 //clear
 
 function clearCanvas() {
-  brush.clearRect(0, 0, canvas.width, canvas.height);
+  context.clearRect(0, 0, canvas.width, canvas.height);
+};
+
+//save canvas as png
+
+function saveDialog() {
+  var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+  window.location.href = image;
 };
 
 //brush size
@@ -105,7 +132,7 @@ function setBrushSize(clickArea) {
   } else {
     var thisClick = (clickArea.pageX - 22) / 5;
   };
-  brush.lineWidth = thisClick;
+  context.lineWidth = thisClick;
   brushValue.innerHTML = parseFloat(thisClick).toFixed(1);
 };
 
@@ -118,26 +145,9 @@ function setEraserSize(clickArea) {
 
 //palette
 
-function defaultPaletteChoice() {
-  paletteWhite.style.border = 'none';
-  paletteWhite.style.width = '20px';
-  paletteWhite.style.height = '20px';
-
-  paletteRed.style.border = 'none';
-  paletteRed.style.width = '20px';
-  paletteRed.style.height = '20px';
-
-  paletteBlue.style.border = 'none';
-  paletteBlue.style.width = '20px';
-  paletteBlue.style.height = '20px';
-
-  paletteGreen.style.border = 'none';
-  paletteGreen.style.width = '20px';
-  paletteGreen.style.height = '20px';
-};
-
 function setColorWhite() {
-  brush.strokeStyle = colorWhite;
+  context.strokeStyle = colorWhite;
+  currentPrimaryColor = colorWhite;
   defaultPaletteChoice();
   paletteWhite.style.border = '2px #CFB5B5 solid';
   paletteWhite.style.width = '16px';
@@ -146,7 +156,8 @@ function setColorWhite() {
 };
 
 function setColorRed() {
-  brush.strokeStyle = colorRed;
+  context.strokeStyle = colorRed;
+  currentPrimaryColor = colorRed;
   defaultPaletteChoice();
   paletteRed.style.border = '2px #CFB5B5 solid';
   paletteRed.style.width = '16px';
@@ -155,7 +166,8 @@ function setColorRed() {
 };
 
 function setColorBlue() {
-  brush.strokeStyle = colorBlue;
+  context.strokeStyle = colorBlue;
+  currentPrimaryColor = colorBlue;
   defaultPaletteChoice();
   paletteBlue.style.border = '2px #CFB5B5 solid';
   paletteBlue.style.width = '16px';
@@ -164,7 +176,8 @@ function setColorBlue() {
 };
 
 function setColorGreen() {
-  brush.strokeStyle = colorGreen;
+  context.strokeStyle = colorGreen;
+  currentPrimaryColor = colorGreen;
   defaultPaletteChoice();
   paletteGreen.style.border = '2px #CFB5B5 solid';
   paletteGreen.style.width = '16px';
@@ -184,23 +197,20 @@ function setSecondaryColor() {
 
 //instruments
 
-function defaultInstrumentChoice() {
-  instrumentBrush.style.backgroundColor = '#CFB5B5';
-  instrumentEraser.style.backgroundColor = '#CFB5B5';
-  instrumentColorpicker.style.backgroundColor = '#CFB5B5';
-};
-
 function pickInstrumentBrush() {
   defaultInstrumentChoice();
+  isInstrument = "brush";
   instrumentBrush.style.backgroundColor = '#6868AC';
 };
 
 function pickInstrumentEraser() {
   defaultInstrumentChoice();
+  isInstrument = "eraser";
   instrumentEraser.style.backgroundColor = '#6868AC';
 };
 
 function pickInstrumentColorpicker() {
   defaultInstrumentChoice();
+  isInstrument = "colorpicker";
   instrumentColorpicker.style.backgroundColor = '#6868AC';
 };

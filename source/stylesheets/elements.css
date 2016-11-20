@@ -175,7 +175,7 @@
 
 /*horizontal-sections > horizontal-4*/
 
-#button-clear {
+.button {
   background-color: #CFB5B5;
   width: 35px;
   border-radius: 2px;
@@ -192,10 +192,10 @@
     -ms-user-select: none;
 }
 
-  #button-clear:hover {
+  .button:hover {
     background-color: #AEAEB6;
   }
 
-  #button-clear:active {
+  .button:active {
     background-color: #6868AC;
   }
