@@ -33,6 +33,7 @@ brushWidthContainer.addEventListener('click', setBrushSize, false);
 var brushWidthElement = document.getElementById('brush-width-element');
 
 var brushValue = document.getElementById('brush-value');
+var eraserValue = document.getElementById('eraser-value');
 
 var eraserWidthContainer = document.getElementById('eraser-width-container');
 eraserWidthContainer.addEventListener('click', setEraserSize, false);
@@ -61,6 +62,8 @@ instrumentBrush.style.backgroundColor = '#6868AC';
 var isInstrument = "brush";
 var currentPrimaryColor = '#1A1919'
 var currentSecondaryColor = '#FFF';
+var currentBrushWidth = 10;
+var currentEraserWidth = 10;
 
 canvas.style.backgroundColor = '#FFF';
 
@@ -81,6 +84,7 @@ canvas.addEventListener('mousedown', function(e) {
   switch (isInstrument) {
     case "eraser":
       context.strokeStyle = currentSecondaryColor;
+      context.lineWidth = currentEraserWidth;
       break;
     case "colorpicker":
       alert("It's not work yet.");
@@ -89,6 +93,7 @@ canvas.addEventListener('mousedown', function(e) {
     case "brush":
     default:
       context.strokeStyle = currentPrimaryColor;
+      context.lineWidth = currentBrushWidth;
       break;
   };
   context.beginPath();
@@ -126,21 +131,24 @@ function setBrushSize(clickArea) {
   brushWidthElement.style.width = ((clickArea.pageX - brushWidthContainer.offsetLeft) / width) * 100 + "%";
   //set brush value
   if (clickArea.pageX >= 742) {
-    var thisClick = (clickArea.pageX - 742) / 5;
+    var brushWidthValue = (clickArea.pageX - 742) / 5;
   } else if (clickArea.pageX >= 83 && clickArea.pageX < 741) {
-    var thisClick = (clickArea.pageX - 83) / 5;
+    var brushWidthValue = (clickArea.pageX - 83) / 5;
   } else {
-    var thisClick = (clickArea.pageX - 22) / 5;
+    var brushWidthValue = (clickArea.pageX - 22) / 5;
   };
-  context.lineWidth = thisClick;
-  brushValue.innerHTML = parseFloat(thisClick).toFixed(1);
+  currentBrushWidth = brushWidthValue;
+  context.lineWidth = brushWidthValue;
+  brushValue.innerHTML = parseFloat(brushWidthValue).toFixed(1);
 };
 
 function setEraserSize(clickArea) {
   //draw control element
   var width = window.getComputedStyle(eraserWidthContainer).getPropertyValue('width'); //100px
   width = parseFloat(width.substr(null)); //100
-  eraserWidthElement.style.width = ((clickArea.pageX - eraserWidthContainer.offsetLeft) / width) * 100 + "%";
+  var eraserWidthValue = eraserWidthElement.style.width = ((clickArea.pageX - eraserWidthContainer.offsetLeft) / width) * 100 + "%";
+  currentEraserWidth = parseInt(eraserWidthValue) / 2;
+  eraserValue.innerHTML = parseFloat(currentEraserWidth).toFixed(1);
 };
 
 //palette
