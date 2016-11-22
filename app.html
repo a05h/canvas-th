@@ -12,8 +12,20 @@
 
       <div id="draw-container">
         <div id="rule-container">
-          <div id="rule-up" onmousemove="drawResetArea();"></div>
-          <div id="rule-down" onmousemove="drawResetArea();"></div>
+          <div id="rule-up" onmousemove="drawResetArea();">
+            <span class="border-info" id="main-coordinate-x-title">X :</span>
+            <span class="border-info" id="main-coordinate-x-value">0</span>
+            <span class="border-info" id="main-coordinate-y-title">Y :</span>
+            <span class="border-info" id="main-coordinate-y-value">0</span>
+          </div>
+          <div id="rule-down" onmousemove="drawResetArea();">
+            <div id="primary-rgba-color-square"></div>
+            <span class="border-info" id="primary-rgba-title">RGBA:</span>
+            <span class="border-info" id="primary-rgba-value">(26, 25, 25, 100)</span>
+            <div id="secondary-rgba-color-square"></div>
+            <span class="border-info" id="secondary-rgba-title">RGBA:</span>
+            <span class="border-info" id="secondary-rgba-value">(255, 255, 255, 100)</span>
+          </div>
           <div id="rule-left" onmousemove="drawResetArea();"></div>
           <div id="rule-right" onmousemove="drawResetArea();"></div>
         </div>
@@ -32,9 +44,33 @@
               <div id="palette-red"></div>
               <div id="palette-blue"></div>
               <div id="palette-green"></div>
+              <div id="palette-empty"></div>
+              <div id="palette-empty"></div>
+              <div id="palette-empty"></div>
+              <div id="palette-empty"></div>
+              <div id="palette-empty"></div>
+              <div id="palette-empty"></div>
+              <div id="palette-empty"></div>
+              <div id="palette-empty"></div>
+              <div id="palette-empty"></div>
+              <div id="palette-empty"></div>
+              <div id="palette-empty"></div>
+              <div id="palette-empty"></div>
             </div>
-            <div id="colorpicker-container">
+            <div id="colorpicker-panel-container">
               <div id="secondary-color"></div>
+
+              <div class="hidden-elements">
+                <div id="primary-colorpicker-box">
+                  <div id="color-input-container">
+                    <textarea id="color-input" rows="1" maxlength="7" placeholder="#XXXXXX [HEX]"></textarea>
+                  </div>
+                  <div id="color-input-button">~</div>
+                  <canvas id="color-range"></canvas>
+                </div>
+                <div id="secondary-colorpicker-box"></div>
+              </div>
+
               <div id="primary-color"></div>
             </div>
           </div>
@@ -49,30 +85,37 @@
 
         <div id="horizontal-sections">
           <div id="horizontal-1">
-            <div>
-              <div>
-                <span class="title-name">Brush size:</span>
-                <span class="title-value" id="brush-value">10.0</span>
-              </div>
-              <div id="brush-width-container">
-                <div id="brush-width-element"></div>
-              </div>
+            <span class="title-name">Brush size:</span>
+            <span class="title-value" id="brush-value">10.0</span>
+            <div id="brush-width-container">
+              <div id="brush-width-element"></div>
             </div>
-            <div>
-              <div>
-                <span class="title-name">Eraser size:</span>
-                <span class="title-value" id="eraser-value">25.0</span>
-              </div>
-              <div id="eraser-width-container">
-                <div id="eraser-width-element"></div>
-              </div>
+
+            <span class="title-name">Eraser size:</span>
+            <span class="title-value" id="eraser-value">25.0</span>
+            <div id="eraser-width-container">
+              <div id="eraser-width-element"></div>
             </div>
           </div>
-          <div id="horizontal-2"></div>
+
+          <div id="horizontal-2">
+            <span class="title-name">Transparent:</span>
+            <span class="title-value" id="transparent-value">0%</span>
+            <div id="transparent-width-container">
+              <div id="transparent-width-element"></div>
+            </div>
+
+            <span class="title-name">Aliasing:</span>
+            <span class="title-value" id="aliasing-value">0%</span>
+            <div id="aliasing-width-container">
+              <div id="aliasing-width-element"></div>
+            </div>
+          </div>
+
           <div id="horizontal-3"></div>
           <div id="horizontal-4">
-            <div id="button-clear" class="button">clear</div>
-            <div id="button-save" class="button">save</div>
+            <div id="button-clear" class="button" onclick="clearCanvas();">clear</div>
+            <div id="button-save" class="button" onclick="saveAsPng();">save</div>
           </div>
         </div>
 

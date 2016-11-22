@@ -1,11 +1,14 @@
+//https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
+
 //init
 
 var canvas = document.getElementById('canvas');
 
-var buttonClear = document.getElementById('button-clear');
-buttonClear.addEventListener('click', clearCanvas, false);
-var buttonSave = document.getElementById('button-save');
-buttonSave.addEventListener('click', saveDialog, false);
+var primaryRgbaValue = document.getElementById('primary-rgba-value');
+var secondaryRgbaValue = document.getElementById('secondary-rgba-value');
+
+var showCoordinateX = document.getElementById('main-coordinate-x-value');
+var showCoordinateY = document.getElementById('main-coordinate-y-value');
 
 var paletteWhite = document.getElementById('palette-white');
 paletteWhite.addEventListener('click', setColorWhite, false);
@@ -16,10 +19,31 @@ paletteBlue.addEventListener('click', setColorBlue, false);
 var paletteGreen = document.getElementById('palette-green');
 paletteGreen.addEventListener('click', setColorGreen, false);
 
+var primaryColorpickerBox = document.getElementById('primary-colorpicker-box');
 var primaryColor = document.getElementById('primary-color');
-primaryColor.addEventListener('click', setPrimaryColor, false);
+primaryColor.addEventListener('click', function() {
+  if (primaryColorpickerBox.style.display === 'none') {
+    primaryColorpickerBox.style.display = 'block';
+    if (secondaryColorpickerBox.style.display = 'block') {
+      secondaryColorpickerBox.style.display = 'none';
+    }
+  } else {
+    primaryColorpickerBox.style.display = 'none';
+  }
+}, false);
+
+var secondaryColorpickerBox = document.getElementById('secondary-colorpicker-box');
 var secondaryColor = document.getElementById('secondary-color');
-secondaryColor.addEventListener('click', setSecondaryColor, false);
+secondaryColor.addEventListener('click', function() {
+  if (secondaryColorpickerBox.style.display === 'none') {
+    secondaryColorpickerBox.style.display = 'block';
+    if (primaryColorpickerBox.style.display = 'block') {
+      primaryColorpickerBox.style.display = 'none';
+    }
+  } else {
+    secondaryColorpickerBox.style.display = 'none';
+  }
+}, false);
 
 var instrumentBrush = document.getElementById('instrument-brush');
 instrumentBrush.addEventListener('click', pickInstrumentBrush, false);
@@ -28,16 +52,27 @@ instrumentEraser.addEventListener('click', pickInstrumentEraser, false);
 var instrumentColorpicker = document.getElementById('instrument-colorpicker');
 instrumentColorpicker.addEventListener('click', pickInstrumentColorpicker, false);
 
+var brushValue = document.getElementById('brush-value');
+var eraserValue = document.getElementById('eraser-value');
+
 var brushWidthContainer = document.getElementById('brush-width-container');
 brushWidthContainer.addEventListener('click', setBrushSize, false);
 var brushWidthElement = document.getElementById('brush-width-element');
 
-var brushValue = document.getElementById('brush-value');
-var eraserValue = document.getElementById('eraser-value');
-
 var eraserWidthContainer = document.getElementById('eraser-width-container');
 eraserWidthContainer.addEventListener('click', setEraserSize, false);
 var eraserWidthElement = document.getElementById('eraser-width-element');
+
+var transparentValue = document.getElementById('transparent-value');
+var aliasingValue = document.getElementById('aliasing-value');
+
+var transparentWidthContainer = document.getElementById('transparent-width-container');
+transparentWidthContainer.addEventListener('click', setTransparentPercent, false);
+var transparentWidthElement = document.getElementById('transparent-width-element');
+
+var aliasingWidthContainer = document.getElementById('aliasing-width-container');
+aliasingWidthContainer.addEventListener('click', setAliasingPercent, false);
+var aliasingWidthElement = document.getElementById('aliasing-width-element');
 
 var context = canvas.getContext('2d');
 
@@ -51,21 +86,44 @@ const colorRed = '#E61932';
 const colorBlue = '#565BCF';
 const colorGreen = '#6BB438';
 
-//basic values
+//basic and current values
 
-context.lineWidth = 10;
-context.lineJoin = 'round';
-context.lineCap = 'round';
-context.strokeStyle = '#1A1919';
-instrumentBrush.style.backgroundColor = '#6868AC';
+context.rect(0, 0, canvas.width, canvas.height);
+context.fillStyle = "#FFFFFF";
+context.fill();
 
 var isInstrument = "brush";
-var currentPrimaryColor = '#1A1919'
-var currentSecondaryColor = '#FFF';
+var currentPrimaryColor = '#1A1919';
+var currentSecondaryColor = '#FFFFFF';
 var currentBrushWidth = 10;
 var currentEraserWidth = 10;
 
-canvas.style.backgroundColor = '#FFF';
+context.lineWidth = 10;
+context.lineJoin = 'round'; //round || bevel || miter
+context.lineCap = 'round'; //round || square || butt
+context.strokeStyle = '#1A1919';
+
+instrumentBrush.style.backgroundColor = '#6868AC';
+primaryColor.style.backgroundColor = currentPrimaryColor;
+secondaryColor.style.backgroundColor = currentSecondaryColor;
+
+//hex parser
+
+function rgbToHex(hex, transparency) {
+  hex = hex.replace('#','');
+  //FFF != FFFFFF handler?
+  r = parseInt(hex.substring(0,2), 16);
+  g = parseInt(hex.substring(2,4), 16);
+  b = parseInt(hex.substring(4,6), 16);
+  //transparency is value from setTransparentPercent()
+  result = '(' + r + ', ' + g + ', ' + b + ', ' + transparency / 100 + ')';
+  return result;
+};
+
+function rgbaCheck() {
+  primaryRgbaValue.innerHTML = rgbToHex(currentPrimaryColor, 10000);
+  econdaryRgbaValue.innerHTML = rgbToHex(currentSecondaryColor, 10000);
+};
 
 //draw events
 
@@ -75,19 +133,26 @@ var onPaint = function() {
   context.stroke();
 };
 
-canvas.addEventListener('mousemove', function(e) {
-  mouse.x = e.pageX - this.offsetLeft;
-  mouse.y = e.pageY - this.offsetTop;
+canvas.addEventListener('mousemove', function(event) {
+  //isn't works in firefox without 'event' as function parameter
+  mouse.x = event.pageX - this.offsetLeft;
+  mouse.y = event.pageY - this.offsetTop;
+  coordX = event.pageX - this.offsetLeft;
+  coordY = event.pageY - this.offsetTop;
+  showCoordinateX.innerHTML = coordX;
+  showCoordinateY.innerHTML = coordY;
 }, false);
 
-canvas.addEventListener('mousedown', function(e) {
+canvas.addEventListener('mousedown', function() {
+  if (primaryColorpickerBox.style.display === 'block' || secondaryColorpickerBox.style.display === 'block') {
+    hideColorpickerBoxes();
+  }
   switch (isInstrument) {
     case "eraser":
       context.strokeStyle = currentSecondaryColor;
       context.lineWidth = currentEraserWidth;
       break;
     case "colorpicker":
-      alert("It's not work yet.");
       context.strokeStyle = "rgba(0, 0, 0, 0)"
       break;
     case "brush":
@@ -113,11 +178,14 @@ function drawResetArea() {
 
 function clearCanvas() {
   context.clearRect(0, 0, canvas.width, canvas.height);
+  context.rect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = "#FFFFFF";
+  context.fill();
 };
 
 //save canvas as png
 
-function saveDialog() {
+function saveAsPng() {
   var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
   window.location.href = image;
 };
@@ -128,19 +196,12 @@ function setBrushSize(clickArea) {
   //draw control element
   var width = window.getComputedStyle(brushWidthContainer).getPropertyValue('width'); //100px
   width = parseFloat(width.substr(null)); //100
-  brushWidthElement.style.width = ((clickArea.pageX - brushWidthContainer.offsetLeft) / width) * 100 + "%";
-  //set brush value
-  if (clickArea.pageX >= 742) {
-    var brushWidthValue = (clickArea.pageX - 742) / 5;
-  } else if (clickArea.pageX >= 83 && clickArea.pageX < 741) {
-    var brushWidthValue = (clickArea.pageX - 83) / 5;
-  } else {
-    var brushWidthValue = (clickArea.pageX - 22) / 5;
-  };
-  currentBrushWidth = brushWidthValue;
-  context.lineWidth = brushWidthValue;
-  brushValue.innerHTML = parseFloat(brushWidthValue).toFixed(1);
+  var brushWidthValue = brushWidthElement.style.width = ((clickArea.pageX - brushWidthContainer.offsetLeft) / width) * 100 + "%";
+  currentBrushWidth = parseInt(brushWidthValue) / 5;
+  brushValue.innerHTML = parseFloat(currentBrushWidth).toFixed(1);
 };
+
+//eraser size
 
 function setEraserSize(clickArea) {
   //draw control element
@@ -149,6 +210,24 @@ function setEraserSize(clickArea) {
   var eraserWidthValue = eraserWidthElement.style.width = ((clickArea.pageX - eraserWidthContainer.offsetLeft) / width) * 100 + "%";
   currentEraserWidth = parseInt(eraserWidthValue) / 2;
   eraserValue.innerHTML = parseFloat(currentEraserWidth).toFixed(1);
+};
+
+//transparent value
+
+function setTransparentPercent(clickArea) {
+  //draw control element
+  var width = window.getComputedStyle(transparentWidthContainer).getPropertyValue('width'); //100px
+  width = parseFloat(width.substr(null)); //100
+  var transparentWidthValue = transparentWidthElement.style.width = ((clickArea.pageX - transparentWidthContainer.offsetLeft) / width) * 100 + "%";
+};
+
+//aliasing value
+
+function setAliasingPercent(clickArea) {
+  //draw control element
+  var width = window.getComputedStyle(aliasingWidthContainer).getPropertyValue('width'); //100px
+  width = parseFloat(width.substr(null)); //100
+  var aliasingWidthValue = aliasingWidthElement.style.width = ((clickArea.pageX - aliasingWidthContainer.offsetLeft) / width) * 100 + "%";
 };
 
 //palette
@@ -161,6 +240,8 @@ function setColorWhite() {
   paletteWhite.style.width = '16px';
   paletteWhite.style.height = '16px';
   primaryColor.style.backgroundColor = colorWhite;
+  rgbaCheck();
+  hideColorpickerBoxes();
 };
 
 function setColorRed() {
@@ -171,6 +252,8 @@ function setColorRed() {
   paletteRed.style.width = '16px';
   paletteRed.style.height = '16px';
   primaryColor.style.backgroundColor = colorRed;
+  rgbaCheck();
+  hideColorpickerBoxes();
 };
 
 function setColorBlue() {
@@ -181,6 +264,8 @@ function setColorBlue() {
   paletteBlue.style.width = '16px';
   paletteBlue.style.height = '16px';
   primaryColor.style.backgroundColor = colorBlue;
+  rgbaCheck();
+  hideColorpickerBoxes();
 };
 
 function setColorGreen() {
@@ -191,16 +276,8 @@ function setColorGreen() {
   paletteGreen.style.width = '16px';
   paletteGreen.style.height = '16px';
   primaryColor.style.backgroundColor = colorGreen;
-};
-
-//colorpicker
-
-function setPrimaryColor() {
-
-};
-
-function setSecondaryColor() {
-
+  rgbaCheck();
+  hideColorpickerBoxes();
 };
 
 //instruments

@@ -25,3 +25,10 @@ function defaultInstrumentChoice() {
   instrumentEraser.style.backgroundColor = '#CFB5B5';
   instrumentColorpicker.style.backgroundColor = '#CFB5B5';
 };
+
+//colorpicker boxes
+
+function hideColorpickerBoxes() {
+  primaryColorpickerBox.style.display = 'none';
+  secondaryColorpickerBox.style.display = 'none';
+};

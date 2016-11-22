@@ -1,12 +1,13 @@
 body {
   margin: 0px;
   padding: 0px;
-  background-color: gray;
+  background-color: #DDD;
 }
 
 #app-container {
   background-color: #DDD;
   height: 700px;
+  cursor: default;
 }
 
 #draw-container {
@@ -22,10 +23,12 @@ body {
   float: left;
   height: 640px;
   padding: 10px;
+  cursor: default;
 }
 
   #controls-container > * {
     float: left;
+    cursor: default;
   }
 
   #vertical-sections {
