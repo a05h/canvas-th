@@ -1,4 +1,4 @@
-//https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
+// https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
 
 //init
 
@@ -109,7 +109,7 @@ secondaryColor.style.backgroundColor = currentSecondaryColor;
 
 //hex parser
 
-function rgbToHex(hex, transparency) {
+function hexToRgba(hex, transparency) {
   hex = hex.replace('#','');
   //FFF != FFFFFF handler?
   r = parseInt(hex.substring(0,2), 16);
@@ -121,8 +121,8 @@ function rgbToHex(hex, transparency) {
 };
 
 function rgbaCheck() {
-  primaryRgbaValue.innerHTML = rgbToHex(currentPrimaryColor, 10000);
-  econdaryRgbaValue.innerHTML = rgbToHex(currentSecondaryColor, 10000);
+  primaryRgbaValue.innerHTML = hexToRgba(currentPrimaryColor, 100);
+  secondaryRgbaValue.innerHTML = hexToRgba(currentSecondaryColor, 100);
 };
 
 //draw events
@@ -137,13 +137,13 @@ canvas.addEventListener('mousemove', function(event) {
   //isn't works in firefox without 'event' as function parameter
   mouse.x = event.pageX - this.offsetLeft;
   mouse.y = event.pageY - this.offsetTop;
-  coordX = event.pageX - this.offsetLeft;
-  coordY = event.pageY - this.offsetTop;
+  var coordX = event.pageX - this.offsetLeft;
+  var coordY = event.pageY - this.offsetTop;
   showCoordinateX.innerHTML = coordX;
   showCoordinateY.innerHTML = coordY;
 }, false);
 
-canvas.addEventListener('mousedown', function() {
+canvas.addEventListener('mousedown', function(event) {
   if (primaryColorpickerBox.style.display === 'block' || secondaryColorpickerBox.style.display === 'block') {
     hideColorpickerBoxes();
   }
@@ -153,7 +153,15 @@ canvas.addEventListener('mousedown', function() {
       context.lineWidth = currentEraserWidth;
       break;
     case "colorpicker":
+      mouse.x = event.pageX - this.offsetLeft;
+      mouse.y = event.pageY - this.offsetTop;
+      var pixel = context.getImageData(mouse.x, mouse.y, 1, 1);
+      var data = pixel.data;
+      var rgba = 'rgba(' + data[0] + ', ' + data[1] + ', ' + data[2] + ', ' + (data[3] / 255) + ')';
       context.strokeStyle = "rgba(0, 0, 0, 0)"
+      currentPrimaryColor = rgba;
+      primaryColor.style.backgroundColor = currentPrimaryColor;
+      alert(rgba);
       break;
     case "brush":
     default:
