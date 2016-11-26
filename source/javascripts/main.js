@@ -107,22 +107,9 @@ instrumentBrush.style.backgroundColor = '#6868AC';
 primaryColor.style.backgroundColor = currentPrimaryColor;
 secondaryColor.style.backgroundColor = currentSecondaryColor;
 
-//hex parser
-
-function hexToRgba(hex, transparency) {
-  hex = hex.replace('#','');
-  //FFF != FFFFFF handler?
-  r = parseInt(hex.substring(0,2), 16);
-  g = parseInt(hex.substring(2,4), 16);
-  b = parseInt(hex.substring(4,6), 16);
-  //transparency is value from setTransparentPercent()
-  result = '(' + r + ', ' + g + ', ' + b + ', ' + transparency / 100 + ')';
-  return result;
-};
-
 function rgbaCheck() {
-  primaryRgbaValue.innerHTML = hexToRgba(currentPrimaryColor, 100);
-  secondaryRgbaValue.innerHTML = hexToRgba(currentSecondaryColor, 100);
+  primaryRgbaValue.innerHTML = hexToRgba(currentPrimaryColor,1).replace("rgb", "");
+  secondaryRgbaValue.innerHTML = hexToRgba(currentSecondaryColor,1).replace("rgb", "");
 };
 
 //draw events
