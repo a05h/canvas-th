@@ -93,10 +93,11 @@ context.fillStyle = "#FFFFFF";
 context.fill();
 
 var isInstrument = "brush";
-var currentPrimaryColor = '#1A1919';
+var currentPrimaryColor = 'rgba(26,24,24,1)';
 var currentSecondaryColor = '#FFFFFF';
 var currentBrushWidth = 10;
 var currentEraserWidth = 10;
+var currentBrushType = 'round';
 
 context.lineWidth = 10;
 context.lineJoin = 'round'; //round || bevel || miter
@@ -108,8 +109,8 @@ primaryColor.style.backgroundColor = currentPrimaryColor;
 secondaryColor.style.backgroundColor = currentSecondaryColor;
 
 function rgbaCheck() {
-  primaryRgbaValue.innerHTML = hexToRgba(currentPrimaryColor,1).replace("rgb", "");
-  secondaryRgbaValue.innerHTML = hexToRgba(currentSecondaryColor,1).replace("rgb", "");
+  primaryRgbaValue.innerHTML = hexToRgba(currentPrimaryColor,1).replace("rgb", "").replace("rgba", "");
+  secondaryRgbaValue.innerHTML = hexToRgba(currentSecondaryColor,1).replace("rgb", "").replace("rgba", "");
 };
 
 //draw events
@@ -138,6 +139,7 @@ canvas.addEventListener('mousedown', function(event) {
     case "eraser":
       context.strokeStyle = currentSecondaryColor;
       context.lineWidth = currentEraserWidth;
+      context.lineCap = 'round';
       break;
     case "colorpicker":
       mouse.x = event.pageX - this.offsetLeft;
@@ -154,6 +156,7 @@ canvas.addEventListener('mousedown', function(event) {
     default:
       context.strokeStyle = currentPrimaryColor;
       context.lineWidth = currentBrushWidth;
+      context.lineCap = currentBrushType;
       break;
   };
   context.beginPath();
