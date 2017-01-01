@@ -10,16 +10,8 @@ var secondaryRgbaValue = document.getElementById('secondary-rgba-value');
 var showCoordinateX = document.getElementById('main-coordinate-x-value');
 var showCoordinateY = document.getElementById('main-coordinate-y-value');
 
-var paletteWhite = document.getElementById('palette-white');
-paletteWhite.addEventListener('click', setColorWhite, false);
-var paletteRed = document.getElementById('palette-red');
-paletteRed.addEventListener('click', setColorRed, false);
-var paletteBlue = document.getElementById('palette-blue');
-paletteBlue.addEventListener('click', setColorBlue, false);
-var paletteGreen = document.getElementById('palette-green');
-paletteGreen.addEventListener('click', setColorGreen, false);
-
 var primaryColorpickerBox = document.getElementById('primary-colorpicker-box');
+
 var primaryColor = document.getElementById('primary-color');
 primaryColor.addEventListener('click', function() {
   if (primaryColorpickerBox.style.display === 'none') {
@@ -146,11 +138,10 @@ canvas.addEventListener('mousedown', function(event) {
       mouse.y = event.pageY - this.offsetTop;
       var pixel = context.getImageData(mouse.x, mouse.y, 1, 1);
       var data = pixel.data;
-      var rgba = 'rgba(' + data[0] + ', ' + data[1] + ', ' + data[2] + ', ' + (data[3] / 255) + ')';
+      var rgba = 'rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + (data[3] / 255) + ')';
       context.strokeStyle = "rgba(0, 0, 0, 0)"
       currentPrimaryColor = rgba;
       primaryColor.style.backgroundColor = currentPrimaryColor;
-      alert(rgba);
       break;
     case "brush":
     default:

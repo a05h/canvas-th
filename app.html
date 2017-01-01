@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>canvas-painter</title>
+    <title>canvas-th</title>
     <link rel="stylesheet" type="text/css" href="./source/stylesheets/struct.css">
     <link rel="stylesheet" type="text/css" href="./source/stylesheets/elements.css">
   </head>
@@ -12,18 +12,18 @@
       <div id="draw-container">
         <div id="rule-container">
           <div id="rule-up" onmousemove="drawResetArea();">
-            <span class="border-info" id="main-coordinate-x-title">X :</span>
-            <span class="border-info" id="main-coordinate-x-value">0</span>
-            <span class="border-info" id="main-coordinate-y-title">Y :</span>
-            <span class="border-info" id="main-coordinate-y-value">0</span>
+            <p class="border-info" id="main-coordinate-x-title">X :</p>
+            <p class="border-info" id="main-coordinate-x-value">0</p>
+            <p class="border-info" id="main-coordinate-y-title">Y :</p>
+            <p class="border-info" id="main-coordinate-y-value">0</p>
           </div>
           <div id="rule-down" onmousemove="drawResetArea();">
             <div id="primary-rgba-color-square"></div>
-            <span class="border-info" id="primary-rgba-title">RGBA:</span>
-            <span class="border-info" id="primary-rgba-value">(26,25,25,1)</span>
+            <p class="border-info" id="primary-rgba-title">RGBA:</p>
+            <p class="border-info" id="primary-rgba-value">(26,25,25,1)</p>
             <div id="secondary-rgba-color-square"></div>
-            <span class="border-info" id="secondary-rgba-title">RGBA:</span>
-            <span class="border-info" id="secondary-rgba-value">(255,255,255,1)</span>
+            <p class="border-info" id="secondary-rgba-title">RGBA:</p>
+            <p class="border-info" id="secondary-rgba-value">(255,255,255,1)</p>
           </div>
           <div id="rule-left" onmousemove="drawResetArea();"></div>
           <div id="rule-right" onmousemove="drawResetArea();"></div>
@@ -39,22 +39,10 @@
         <div id="vertical-sections">
           <div id="vertical-1">
             <div id="palette-container">
-              <div id="palette-white"></div>
-              <div id="palette-red"></div>
-              <div id="palette-blue"></div>
-              <div id="palette-green"></div>
-              <div id="palette-empty"></div>
-              <div id="palette-empty"></div>
-              <div id="palette-empty"></div>
-              <div id="palette-empty"></div>
-              <div id="palette-empty"></div>
-              <div id="palette-empty"></div>
-              <div id="palette-empty"></div>
-              <div id="palette-empty"></div>
-              <div id="palette-empty"></div>
-              <div id="palette-empty"></div>
-              <div id="palette-empty"></div>
-              <div id="palette-empty"></div>
+              <div id="palette-white" onclick="setColorWhite();"></div>
+              <div id="palette-red onclick="setColorRed();""></div>
+              <div id="palette-blue onclick="setColorBlue();""></div>
+              <div id="palette-green onclick="setColorGreen();""></div>
             </div>
             <div id="colorpicker-panel-container">
               <div id="secondary-color"></div>
@@ -84,28 +72,28 @@
 
         <div id="horizontal-sections">
           <div id="horizontal-1">
-            <span class="title-name">Brush size:</span>
-            <span class="title-value" id="brush-value">10.0</span>
+            <p class="title-name">Brush size:</p>
+            <p class="title-value" id="brush-value">10.0</p>
             <div id="brush-width-container">
               <div id="brush-width-element"></div>
             </div>
 
-            <span class="title-name">Eraser size:</span>
-            <span class="title-value" id="eraser-value">25.0</span>
+            <p class="title-name">Eraser size:</p>
+            <p class="title-value" id="eraser-value">25.0</p>
             <div id="eraser-width-container">
               <div id="eraser-width-element"></div>
             </div>
           </div>
 
           <div id="horizontal-2">
-            <span class="title-name">Transparent:</span>
-            <span class="title-value" id="transparent-value">0%</span>
+            <p class="title-name">Transparent:</p>
+            <p class="title-value" id="transparent-value">0%</p>
             <div id="transparent-width-container">
               <div id="transparent-width-element"></div>
             </div>
 
-            <span class="title-name">Aliasing:</span>
-            <span class="title-value" id="aliasing-value">0%</span>
+            <p class="title-name">Aliasing:</p>
+            <p class="title-value" id="aliasing-value">0%</p>
             <div id="aliasing-width-container">
               <div id="aliasing-width-element"></div>
             </div>
